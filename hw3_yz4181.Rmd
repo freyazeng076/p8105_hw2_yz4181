@@ -1,0 +1,6 @@
+---
+title: "Simple document"
+author: Freya
+data: 2021-09-16
+output: github_document
+---
