@@ -4,3 +4,15 @@ author: Freya
 data: 2021-09-16
 output: github_document
 ---
+```{r, echo = FALSE}
+library(tidyverse)
+library(readxl)
+```
+
+## Problem 1
+
+```{r}
+# import the data set
+trash_data = read_excel("./Trash_Wheel_Collection_Totals_8_6_19.xlsx", sheet = "Mr. Trash Wheel")
+```
+
