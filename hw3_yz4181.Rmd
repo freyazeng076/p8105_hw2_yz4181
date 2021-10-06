@@ -22,6 +22,8 @@ trash_data =
   mutate(
     sports_balls = round(sports_balls))
 
+trash_data
+
 # Read and clean the precipitation data for 2018
 pre_2018 = (
   read_excel("./Trash_Wheel_Collection_Totals_8_6_19.xlsx", sheet = "2018 Precipitation") %>% 
@@ -31,6 +33,8 @@ pre_2018 = (
     mutate(year = 2018) %>%  
     relocate(year))
 
+pre_2018
+
 # Read and clean the precipitation data for 2019
 pre_2019 = (
   read_excel("./Trash_Wheel_Collection_Totals_8_6_19.xlsx", sheet = "2019 Precipitation") %>% 
@@ -39,6 +43,20 @@ pre_2019 = (
     filter(month !="NA", total !="NA") %>% 
     mutate(year = 2019) %>% 
     relocate(year))
+
+pre_2019
+
+# Combine two precipitation data
+precipitation_data = (
+  bind_rows(pre_2018, pre_2019) %>% 
+  mutate(month = month.name[as.numeric(month)])
+)
+
+precipitation_data
 ```
+## Problem 2
+
+
+
 
 
