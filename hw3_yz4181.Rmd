@@ -56,6 +56,29 @@ precipitation_data
 ```
 ## Problem 2
 
+```{r}
+# Clean data in pols-month.csv
+pols_month = 
+  read_csv("./fivethirtyeight_datasets/pols-month.csv") %>% 
+  separate(mon,  into = c("year", "month", "day"), sep = "-") %>% 
+  mutate(month = month.name[as.numeric(month)]) %>% 
+  pivot_longer(
+    prez_gop | prez_dem,
+    names_to = "president",
+    names_prefix = "prez_",
+    values_to = "gop_or_dem") %>% 
+  filter( gop_or_dem!=0 ) %>% 
+  select(!day & !gop_or_dem) %>% 
+  relocate(year, month, president, everything())
+
+pols_month
+
+
+  
+        
+           
+
+```
 
 
 
