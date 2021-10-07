@@ -8,6 +8,7 @@ output: github_document
 library(tidyverse)
 library(readxl)
 library(lubridate)
+library(dplyr)
 ```
 
 ## Problem 1
@@ -116,5 +117,21 @@ pols_snp_unemp =
 ```
 
 
+## Problem 3
+
+```{r}
+# Clean the data on popularity of baby names
+baby_names = 
+  read.csv("./Popular_Baby_Names.csv") %>% 
+  janitor::clean_names() %>%
+  distinct() %>% 
+  mutate(
+    gender = tolower(gender),
+    ethnicity = tolower(ethnicity),
+    child_s_first_name = tolower(child_s_first_name)
+  )
+baby_names
+
+```
 
 
