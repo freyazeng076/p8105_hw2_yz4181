@@ -98,10 +98,13 @@ unemployment_df =
   ) %>% 
   filter(unemployment !="NA") %>% 
   janitor::clean_names() %>% 
+  mutate(
+    month = match(month, month.abb),
+    month = month.name[as.numeric(month)]
+  ) %>% 
   arrange(desc(year)) 
 
 unemployment_df
-
 
 # left join snp into pols data set
 pols_snp =
@@ -109,7 +112,7 @@ pols_snp =
 
 # left join unemployment into pols_snp 
 pols_snp_unemp =
-  left_join(pols_snp, unemployment_df, by = c("year"))
+  left_join(pols_snp, unemployment_df, by = c("year", "month"))
 ```
 
 
