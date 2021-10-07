@@ -128,10 +128,19 @@ baby_names =
   mutate(
     gender = tolower(gender),
     ethnicity = tolower(ethnicity),
+    ethnicity = replace(ethnicity, ethnicity == "asian and paci", "asian and pacific islander"),
+    ethnicity = replace(ethnicity, ethnicity == "black non hisp", "black non hispanic"),
+    ethnicity = replace(ethnicity, ethnicity == "white non hisp", "white non hispanic"),
     child_s_first_name = tolower(child_s_first_name)
   )
-baby_names
 
+head(baby_names)
+
+# Create table showing popularity of the name "Olivia"
+olivia_df =
+  baby_names %>% 
+  filter(child_s_first_name == "olivia") %>% 
+  arrange(desc(rank)) # how to arrange something in increasing order??
 ```
 
 
