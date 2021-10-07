@@ -94,9 +94,8 @@ snp_df =
 snp_df
 
 # Clean th unemployment data 
-
 unemployment_df = 
-  read_csv("./fivethirtyeight_datasets/unemployment.csv") %>% 
+  read_csv("./fivethirtyeight_datasets/unemployment.csv", col_types = "cdddddddddddd") %>% 
   pivot_longer(
     Jan : Dec,
     names_to = "month",
@@ -104,15 +103,18 @@ unemployment_df =
   ) %>% 
   filter(unemployment !="NA") %>% 
   janitor::clean_names() %>% 
-  arrange(desc(year))
+  arrange(desc(year)) 
+
+unemployment_df
 
 
+# left join snp into pols data set
+pols_snp =
+  left_join(pols_month, snp_df, by = c("year","month"))
 
-
-  
-        
-           
-
+# left join unemployment into pols_snp 
+pols_snp_unemp =
+  left_join(pols_snp, unemployment_df, by = c("year"))
 ```
 
 
