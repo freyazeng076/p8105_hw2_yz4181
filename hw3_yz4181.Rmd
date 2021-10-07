@@ -8,6 +8,7 @@ output: github_document
 library(tidyverse)
 library(readxl)
 library(janitor)
+library(lubridate)
 ```
 
 ## Problem 1
@@ -83,12 +84,28 @@ snp_df =
   mutate(
     year = ifelse(as.numeric(year)>2049, as.numeric(year)-100, year)
   ) %>% 
-  mutate(month = month.name[as.numeric(month)]) %>% 
+  mutate(
+    month = month.name[as.numeric(month)]
+    ) %>% 
   select(!day) %>% 
   relocate(year) %>% 
-  arrange(desc(year, month))
+  arrange(desc(year))
 
 snp_df
+
+# Clean th unemployment data 
+
+unemployment_df = 
+  read_csv("./fivethirtyeight_datasets/unemployment.csv") %>% 
+  pivot_longer(
+    Jan : Dec,
+    names_to = "month",
+    values_to = "unemployment"
+  ) %>% 
+  filter(unemployment !="NA") %>% 
+  janitor::clean_names() %>% 
+  arrange(desc(year))
+
 
 
 
