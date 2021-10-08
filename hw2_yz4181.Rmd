@@ -4,7 +4,7 @@ author: Yuanyuan Zeng
 data: 2021-09-16
 output: github_document
 ---
-```{r, echo = FALSE}
+```{r, echo = FALSE, message = FALSE, warming = FALSE}
 library(tidyverse)
 library(readxl)
 library(lubridate)
@@ -13,7 +13,7 @@ library(dplyr)
 
 ## Problem 1
 
-```{r}
+```{r, message = FALSE, warming = FALSE}
 # Read and clean the Mr.Trash Wheel sheet
 trash_data = 
   read_excel("./Trash-Wheel-Collection-Totals-7-2021-sept.xlsx", sheet = "Mr. Trash Wheel") %>% 
@@ -22,26 +22,32 @@ trash_data =
   filter(dumpster != "NA") %>% 
   mutate(
     sports_balls = round(sports_balls))
-str(trash_data)
 
+head(trash_data, 5)
+```
+
+```{r, message = FALSE, warming = FALSE}
 # Read and clean the precipitation data for 2018
 pre_2018 = (
   read_excel("./Trash-Wheel-Collection-Totals-7-2021-sept.xlsx", sheet = "2018 Precipitation", range = "A2:B14") %>% 
     janitor::clean_names() %>% 
     mutate(year = 2018) %>%  
     relocate(year))
-str(pre_2018)
+head(pre_2018, 5)
 
 # Calculate total precipitation in 2018
 sum(pull(pre_2018,var =3))
 
+```
+
+```{r, message = FALSE, warming = FALSE}
 # Read and clean the precipitation data for 2019
 pre_2019 = (
   read_excel("./Trash-Wheel-Collection-Totals-7-2021-sept.xlsx", sheet = "2019 Precipitation", range = "A2:B14") %>% 
     janitor::clean_names() %>% 
     mutate(year = 2019) %>% 
     relocate(year))
-str(pre_2019)
+head(pre_2019, 5)
 
 # Combine two precipitation data
 precipitation_data = (
@@ -56,16 +62,17 @@ filter(trash_data, year == "2019") %>%
   median()
 ```
 
-* The trash_data contains 488 rows and 14 columns. There are 14 variables which are dumpster, month, year, data, weight_tons, volume_cubic_yards, plastic_bottles, polystyrene, cigarette_butts, grocery_bags, chip_bags, sports_balls, and homes_powered. Dumpster and month are character variables. Others are numeric variables. The tables both pre_2018 and pre_2019 contains 12 rows and 3 colors. There are three numeric variables which are year, month, and total. The total precipitation in 2018 is 70.33 inches. Combining two precipitation data, we get a table named precipitation_data which contains 24 rows and 3 colomns. The variable name are the same as two seperated tables. 
+* The trash_data contains 488 rows and 14 columns. There are 14 variables which are dumpster, month, year, data, weight_tons, volume_cubic_yards, plastic_bottles, polystyrene, cigarette_butts, grocery_bags, chip_bags, sports_balls, and homes_powered. Dumpster and month are character variables. Others are numeric variables. The tables both pre_2018 and pre_2019 contains 12 rows and 3 colors. There are three numeric variables which are year, month, and total. The total precipitation in 2018 is 70.33 inches. Combining two precipitation data, we get a table named precipitation_data which contains 24 rows and 3 colomns. The variable name are the same as two separated tables. 
 
 ## Problem 2
 
-```{r}
+```{r, message = FALSE, warming = FALSE}
 # Clean the data in pols-month.csv
 pols_month = 
   read_csv("./fivethirtyeight_datasets/pols-month.csv") %>% 
   separate(mon,  into = c("year", "month", "day"), sep = "-") %>% 
-  mutate(month = month.name[as.numeric(month)]) %>% 
+  mutate(
+    month = month.name[as.numeric(month)]) %>% 
   pivot_longer(
     prez_gop | prez_dem,
     names_to = "president",
@@ -126,7 +133,7 @@ pols_snp_unemp =
 
 ## Problem 3
 
-```{r}
+```{r, message = FALSE, warming = FALSE}
 # Clean the data on popularity of baby names
 baby_names = 
   read.csv("./Popular_Baby_Names.csv") %>% 
@@ -146,15 +153,24 @@ head(baby_names)
 # Create table showing popularity of the name "Olivia"
 olivia_df =
   baby_names %>% 
+  select(-count) %>% 
   filter(child_s_first_name == "olivia") %>% 
-  arrange(desc(rank)) # how to arrange something in increasing order??
+  pivot_wider(
+    names_from = "year_of_birth",
+    values_from = "rank"
+  )
 
 # Create table showing popularity of the most popular name among male children over time
 popular_names =
   baby_names %>% 
+  select(-count) %>% 
   filter(
     gender != "female",
     rank == "1"
+  ) %>% 
+  pivot_wider(
+    names_from = "year_of_birth",
+    values_from = "child_s_first_name"
   )
 
 # Produce scatter plot
