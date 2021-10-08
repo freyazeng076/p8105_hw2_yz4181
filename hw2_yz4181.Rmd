@@ -37,7 +37,6 @@ head(pre_2018, 5)
 
 # Calculate total precipitation in 2018
 sum(pull(pre_2018,var =3))
-
 ```
 
 ```{r, message = FALSE, warming = FALSE}
@@ -62,7 +61,7 @@ filter(trash_data, year == "2019") %>%
   median()
 ```
 
-* The trash_data contains 488 rows and 14 columns. There are 14 variables which are dumpster, month, year, data, weight_tons, volume_cubic_yards, plastic_bottles, polystyrene, cigarette_butts, grocery_bags, chip_bags, sports_balls, and homes_powered. Dumpster and month are character variables. Others are numeric variables. The tables both pre_2018 and pre_2019 contains 12 rows and 3 colors. There are three numeric variables which are year, month, and total. The total precipitation in 2018 is 70.33 inches. Combining two precipitation data, we get a table named precipitation_data which contains 24 rows and 3 colomns. The variable name are the same as two separated tables. 
+* The trash_data contains 488 rows and 14 columns. There are 14 variables which are dumpster, month, year, data, weight_tons, volume_cubic_yards, plastic_bottles, polystyrene, cigarette_butts, grocery_bags, chip_bags, sports_balls, and homes_powered. Dumpster and month are character variables. Others are numeric variables. The tables both pre_2018 and pre_2019 contains 12 rows and 3 colors. There are three numeric variables which are year, month, and total. Combining two precipitation data, we get a table named precipitation_data which contains 24 rows and 3 columns. The variable name are the same as two separated tables. The total precipitation in 2018 is 70.33 inches. The median number of sports balls in dumspter in 2019 is 9.
 
 ## Problem 2
 
@@ -82,7 +81,7 @@ pols_month =
   select(!day & !gop_or_dem) %>% 
   relocate(year, month, president, everything())
 
-pols_month
+head(pols_month, 5)
 
 # Clean the data in snp.csv
 snp_df = 
@@ -101,7 +100,7 @@ snp_df =
   relocate(year) %>% 
   arrange(desc(year))
 
-snp_df
+head(snp_df, 5)
 
 # Clean th unemployment data 
 unemployment_df = 
@@ -119,7 +118,7 @@ unemployment_df =
   ) %>% 
   arrange(desc(year)) 
 
-unemployment_df
+head(unemployment_df, 5)
 
 # left join snp into pols data set
 pols_snp =
@@ -128,8 +127,12 @@ pols_snp =
 # left join unemployment into pols_snp 
 pols_snp_unemp =
   left_join(pols_snp, unemployment_df, by = c("year", "month"))
+
+# find the range of year in the data set
+range(pull(pols_snp,var =1))
 ```
 
+* In the pols_month data set, there are 822 rows and 9 variables. The year, month, and president are character variables. The column of president show either dem or gop. The data set of snp_df contains 787 rows and 3 variables which are year, month and close. The close represents the closing values of the S&P stock index. The data set of unemployment_df contains 810 rows and 3 variables which are year, month, and unemployment. We merge the snp_df into lops_month by using left join which means that we keep everything in lops_month dataset and add closing values of stock into it. The resulting data set is pols_snp, which contains 822 rows and 10 variables. The year ranges from 1947 to 2015. The resulting data set of merging unemployment into pols_snp contains same number of rows as before and have one additional variable called unemployment.There are 822 rows and 11 variables. 
 
 ## Problem 3
 
