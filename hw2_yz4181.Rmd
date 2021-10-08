@@ -141,6 +141,14 @@ olivia_df =
   baby_names %>% 
   filter(child_s_first_name == "olivia") %>% 
   arrange(desc(rank)) # how to arrange something in increasing order??
+
+# Create table showing popularity of the most popular name among male children over time
+popular_names =
+  baby_names %>% 
+  filter(
+    gender != "female",
+    rank == "1"
+  )
 ```
 
 
