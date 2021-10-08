@@ -149,6 +149,23 @@ popular_names =
     gender != "female",
     rank == "1"
   )
+
+# Produce scatter plot
+male_non_his =
+  baby_names %>% 
+  filter(
+    gender != "female",
+    year_of_birth == "2016",
+    ethnicity == "white non hispanic"
+  )
+
+ggplot(male_non_his, aes(x= rank, y = count))+
+  geom_point() +
+  labs(
+    title = "popularity of white non hispanic male children's names",
+    x = "rank in popularity of the name",
+    y = "number of children with the name"
+  )
 ```
 
 
